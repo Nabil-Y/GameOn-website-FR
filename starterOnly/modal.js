@@ -1,23 +1,49 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
+/////////////////////////////////
+// DOM Elements
+/////////////////////////////////
+
+const topNav = document.querySelector("#myTopnav");
+const navBtn = document.querySelector("#navBtn");
+
+const modalBg = document.querySelector(".bground");
+const modalForm = document.querySelector("#modalForm");
+const modalBtn = document.querySelectorAll(".modal-btn");
+const formData = document.querySelectorAll(".formData");
+const modalClose = document.querySelector(".close");
+
+/////////////////////////////////
+// Functions
+/////////////////////////////////
+
+
+// Display nav on mobile
+const editNav = () => {
+  if (topNav.className === "topnav") {
+    topNav.className += " responsive";
   } else {
-    x.className = "topnav";
+    topNav.className = "topnav";
   }
 }
 
-// DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
-
-// launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-// launch modal form
-function launchModal() {
-  modalbg.style.display = "block";
+// form validation
+const validate = (event) => {
+  console.log("blabla");
+  event.preventDefault();
 }
 
+/////////////////////////////////
+// Events
+/////////////////////////////////
+
+// launch modal event
+modalBtn.forEach((btn) => btn.addEventListener("click",  () => modalBg.style.display = "block" ));
+
+// Close event modal 
+modalClose.addEventListener("click", () => modalBg.style.display = "none");
+
+// Topnav menu display event
+navBtn.addEventListener("click", editNav);
+
+// Form validation submit event 
+modalForm.addEventListener("submit", validate);
 
