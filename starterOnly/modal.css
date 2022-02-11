@@ -182,7 +182,6 @@ input {
   display: block;
   margin-top: 7px;
   margin-bottom: 7px;
-  text-align: right;
   line-height: 0.3;
   opacity: 0;
   transition: 0.3s;
@@ -193,18 +192,19 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* 
+
 input[data-error]::after {
     content: attr(data-error);
     font-size: 0.4em;
     color: red;
-} */
+}
 .checkbox-label,
 .checkbox2-label {
   position: relative;
-  margin-left: 36px;
+  margin-left: 30px;
   font-size: 12px;
   font-weight: normal;
+  cursor: pointer;
 }
 .checkbox-label .checkbox-icon,
 .checkbox2-label .checkbox-icon {
@@ -370,6 +370,7 @@ input[data-error]::after {
 .text-label {
   font-weight: normal;
   font-size: 16px;
+  padding: 0.5vw 0;
 }
 .hero-section {
   border-radius: 10px;
@@ -444,6 +445,9 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+
+/* Media Queries */
+
 @media screen and (max-width: 992px)  {
   .hero-headline {
     font-size: 4.5rem;
@@ -538,6 +542,8 @@ footer {
   }
 } 
 
+/* Animation */
+
 @keyframes modalopen {
   from {
     opacity: 0;
@@ -546,4 +552,10 @@ footer {
   to {
     opacity: 1;
   }
+}
+
+/* Utility classes */
+
+.block {
+  display: block;
 }
