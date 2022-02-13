@@ -300,6 +300,9 @@ input[data-error]::after {
   cursor: pointer;
   border: 0;
 }
+.btn-submit {
+  width: 234px;
+}
 /* custom select styles */
 .custom-select {
   position: relative;
@@ -555,6 +558,22 @@ footer {
 }
 
 /* Utility classes */
+
+.hidden {
+  opacity: 0;
+}
+
+.confirmation {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 36px;
+  line-height: 51px;
+  text-align: center;
+  width: 300px;
+}
 
 .block {
   display: block;

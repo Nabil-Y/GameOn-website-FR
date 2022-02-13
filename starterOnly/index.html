@@ -54,6 +54,7 @@
       <div class="bground">
         <div class="content">
           <span class="close"></span>
+          <div class="confirmation"></div>
           <div class="modal-body">
             <form
               name="reserve"
@@ -96,7 +97,7 @@
               </div>
               <div
                 class="formData"
-                data-error="Vous devez entrer votre date de naissance.">
+                data-error="Vous devez entrer votre date de naissance au format JJ/MM/AAAA">
                 <label for="birthdate">Date de naissance</label><br>
                 <input
                   class="text-control"
@@ -109,7 +110,7 @@
                 class="formData"
                 data-error="Vous devez écrire un nombre">
                 <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
-                <input type="text" class="text-control" id="quantity" name="quantity" min="0" max="99">
+                <input type="text" class="text-control" id="quantity" name="quantity">
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div
