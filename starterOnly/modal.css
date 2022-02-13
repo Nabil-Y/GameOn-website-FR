@@ -1,3 +1,15 @@
+/*
+  1 - Root
+  2 - Landing Page
+  3 - Modal form
+  4 - custom select styles
+  5 - Media Queries
+  6 - Animation
+  7 - Utility classes
+*/
+
+/* 1 - Root */
+
 :root {
   --font-default: "DM Sans", Arial, Helvetica, sans-serif;
   --font-slab: var(--font-default);
@@ -8,7 +20,7 @@
   margin: 0;
   padding: 0;
 }
-/* Landing Page */
+/* 2 - Landing Page */
 
 body {
   margin: 0;
@@ -104,7 +116,7 @@ main {
   font-family: var(--font-slab);
 }
 
-/* Modal form */
+/* 3 - Modal form */
 
 .button {
   background: #fe142f;
@@ -303,7 +315,7 @@ input[data-error]::after {
 .btn-submit {
   width: 234px;
 }
-/* custom select styles */
+/* 4 - custom select styles */
 .custom-select {
   position: relative;
   font-family: Arial;
@@ -449,7 +461,7 @@ footer {
   margin: 0 20px;
 }
 
-/* Media Queries */
+/* 5 - Media Queries */
 
 @media screen and (max-width: 992px)  {
   .hero-headline {
@@ -545,7 +557,7 @@ footer {
   }
 } 
 
-/* Animation */
+/* 6 - Animation */
 
 @keyframes modalopen {
   from {
@@ -557,7 +569,7 @@ footer {
   }
 }
 
-/* Utility classes */
+/* 7 - Utility classes */
 
 .hidden {
   opacity: 0;
