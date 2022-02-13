@@ -2,35 +2,30 @@
 // DOM Elements
 /////////////////////////////////
 
-// navigation element
+// Navigation element
 const topNav = document.querySelector("#myTopnav");
-
-//mobile navigation hamburger icon
+// Mobile navigation hamburger icon
 const navBtn = document.querySelector("#navBtn");
-
 // Display modal button
 const modalBtn = document.querySelectorAll(".modal-btn");
-
-// modal window
+// Modal window
 const modalWindow = document.querySelector(".bground");
-
-// modal form
+// Modal form
 const modalForm = document.querySelector("#modalForm");
-
-//Close modal button
+// Close modal button
 const modalClose = document.querySelector(".close");
-
 // NodeList of all input fields in the form
 const formData = Array.from(document.querySelectorAll(".formData"));
-
 // Radio buttons array
 const radioBtns = Array.from(document.querySelectorAll(".checkbox-input[type=radio]"));
-
-// terms and conditions checkbox
+// Terms and conditions checkbox
 const terms = document.getElementById("checkbox1");
+// Submit button
+const submitBtn = document.querySelector(".btn-submit");
+// Confirmation
+const confirmationMessage = document.querySelector(".confirmation");
 
 // Regex Validators
-
 const regex = {
   name: /^[a-zà-ú']{2}([a-zà-ú-' ]+)?/i,
   email: /^[\w.-]+@[\w.-]+\.[a-z]{2,}$/,
@@ -39,7 +34,6 @@ const regex = {
 }
 
 // user data in form
-
 const user = {
   firstName: document.getElementById("first"),
   lastName: document.getElementById("last"),
@@ -59,66 +53,74 @@ const toggleNav = () => topNav.classList.toggle("responsive");
 //Display or Hide Modal
 const toggleModal = () => modalWindow.classList.toggle("block");
 
+// Modal input validator 
+const inputValidator = (condition, elementToCheck) => condition 
+  ? elementToCheck.closest(".formData").setAttribute("data-error-visible", "false") 
+  : elementToCheck.closest(".formData").setAttribute("data-error-visible", "true")
+;
+
 // form validation
 const validate = (event) => {
   // firstName check
-  user.firstName.value.match(regex.name)
-    ? user.firstName.closest(".formData").setAttribute("data-error-visible", "false") 
-    : user.firstName.closest(".formData").setAttribute("data-error-visible", "true")
-  ;
+  inputValidator( 
+    user.firstName.value.match(regex.name),
+    user.firstName
+  );
 
   // lastName check
-  user.lastName.value.match(regex.name)
-    ? user.lastName.closest(".formData").setAttribute("data-error-visible", "false") 
-    : user.lastName.closest(".formData").setAttribute("data-error-visible", "true")
-  ;
+  inputValidator( 
+    user.lastName.value.match(regex.name),
+    user.lastName
+  );
   
   // email check
-  user.email.value.match(regex.email)
-    ? user.email.closest(".formData").setAttribute("data-error-visible", "false") 
-    : user.email.closest(".formData").setAttribute("data-error-visible", "true")
-  ;
-  
-  // birthdate check // 1- Regex Check // 2- Check if year of birth is > 1900 // 3- Check if year of birth isn't equal or higher to actual year
-    user.birthDate.value.match(regex.birthDate) && parseInt(user.birthDate.value.slice(-4)) > 1900  && parseInt(user.birthDate.value.slice(-4)) < new Date().getFullYear()
-      ? user.birthDate.closest(".formData").setAttribute("data-error-visible", "false")
-      : user.birthDate.closest(".formData").setAttribute("data-error-visible", "true")
-    ;
-  
-//   if (parseInt(user.birthDate.value.slice(-4)) > 1900 && parseInt(user.birthDate.value.slice(-4)) < new Date().getFullYear()) {
+  inputValidator( 
+    user.email.value.match(regex.email),
+    user.email
+  );
+
+  // birthdate check 
+  // 1- Regex Check // 2- Check if year of birth is > 1900 // 3- Check if (year of birth < actual year)
+  inputValidator( 
+    user.birthDate.value.match(regex.birthDate) 
+    && parseInt(user.birthDate.value.slice(-4)) > 1900 
+    && parseInt(user.birthDate.value.slice(-4)) < new Date().getFullYear(),
+    user.birthDate
+  );
+
   
   // competitions number check
-  user.competitionNumber.value.match(regex.competitionNumber)
-    ? user.competitionNumber.closest(".formData").setAttribute("data-error-visible", "false") 
-    : user.competitionNumber.closest(".formData").setAttribute("data-error-visible", "true")
-  ;
+  inputValidator( 
+    user.competitionNumber.value.match(regex.competitionNumber),
+    user.competitionNumber
+  );
 
   // Radio buttons check
-  radioBtns.every(item => item.checked === false) 
-    ? radioBtns[0].closest(".formData").setAttribute("data-error-visible", "true") 
-    : radioBtns[0].closest(".formData").setAttribute("data-error-visible", "false")
-  ;
+  inputValidator( 
+    radioBtns.some(btn => btn.checked === true) ,
+    radioBtns[0]
+  );
 
   // terms and conditions check
-  terms.checked 
-    ? terms.closest(".formData").setAttribute("data-error-visible", "false") 
-    : terms.closest(".formData").setAttribute("data-error-visible", "true")
-  ;
+  inputValidator( 
+    terms.checked,
+    terms
+  );
 
   // Final check for errors in form 
 
-  if (formData.every(data => data.getAttribute("data-error-visible") === "false") ) {
+  if (formData.every(data => data.getAttribute("data-error-visible") === "false")) {
     // Hide content
     formData.map(data => data.classList.add("hidden"));
     document.querySelector(".text-label").classList.add("hidden");
 
     //Show confirmation message
-    document.querySelector(".confirmation").classList.add("block");
-    document.querySelector(".confirmation").innerText = "Merci pour \n votre inscription";
+    confirmationMessage.classList.add("block");
+    confirmationMessage.innerText = "Merci pour \n votre inscription";
 
     //Change submit button
-    document.querySelector(".btn-submit").value = "Fermer";
-    document.querySelector(".btn-submit").addEventListener("click", toggleModal);
+    submitBtn.value = "Fermer";
+    submitBtn.addEventListener("click", toggleModal);
   }
 
   // Stop auto reload on submit 
@@ -130,7 +132,7 @@ const validate = (event) => {
 /////////////////////////////////
 
 // launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", toggleModal));
+modalBtn.forEach(btn => btn.addEventListener("click", toggleModal));
 
 // Close event modal 
 modalClose.addEventListener("click", toggleModal);
