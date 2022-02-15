@@ -2,35 +2,28 @@
 // DOM Elements
 /////////////////////////////////
 
-// Navigation element
-const topNav = document.querySelector("#myTopnav");
-// Mobile navigation hamburger icon
-const navBtn = document.querySelector("#navBtn");
-// Display modal button
-const modalBtn = document.querySelectorAll(".modal-btn");
-// Modal window
-const modalWindow = document.querySelector(".bground");
-// Modal form
-const modalForm = document.querySelector("#modalForm");
-// Close modal button
-const modalClose = document.querySelector(".close");
-// NodeList of all input fields in the form
-const formData = Array.from(document.querySelectorAll(".formData"));
-// Radio buttons array
-const radioBtns = Array.from(document.querySelectorAll(".checkbox-input[type=radio]"));
-// Terms and conditions checkbox
-const terms = document.getElementById("checkbox1");
-// Submit button
-const submitBtn = document.querySelector(".btn-submit");
-// Confirmation
-const confirmationMessage = document.querySelector(".confirmation");
+// Modal elements
+const modal = {
+  open: Array.from(document.querySelectorAll(".modal-btn")),
+  window: document.querySelector(".bground"),
+  form: document.querySelector("#modalForm"),
+  close: document.querySelector(".close"),
+  formData: Array.from(document.querySelectorAll(".formData")),
+  termsConditions: document.getElementById("checkbox1"),
+  submitBtn: document.querySelector(".btn-submit"),
+  confirmationMessage: document.querySelector(".confirmation")
+}
 
-// Regex Validators
-const regex = {
-  name: /^[a-zà-ú']{2}([a-zà-ú-' ]+)?/i,
-  email: /^[\w.-]+@[\w.-]+\.[a-z]{2,}$/,
-  birthDate: /((?!00)^[0-2][0-9]|^3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/, 
-  competitionNumber: /^[0-9]{1,2}$/
+// Nav elements
+const nav = {
+  top: document.querySelector("#myTopnav"),
+  btn: document.querySelector("#navBtn")
+}
+
+// Radio elements
+const radio = {
+  question: document.querySelector(".text-label"),
+  btns: Array.from(document.querySelectorAll(".checkbox-input[type=radio]"))
 }
 
 // user data in form
@@ -42,16 +35,41 @@ const user = {
   competitionNumber: document.getElementById("quantity")
 }
 
+// Regex Validators
+const regex = {
+  name: /^[a-zà-ú']{2}([a-zà-ú-' ]+)?/i,
+  email: /^[\w.-]+@[\w.-]+\.[a-z]{2,}$/,
+  birthDate: /((?!00)^[0-2][0-9]|^3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/, 
+  competitionNumber: /^[0-9]{1,2}$/
+}
+
 /////////////////////////////////
 // Functions
 /////////////////////////////////
 
 
 // Display nav on mobile
-const toggleNav = () => topNav.classList.toggle("responsive");
+const toggleNav = () => nav.top.classList.toggle("responsive");
+
+// Change modal Layout on validation
+const changeModalLayout = () => {
+  modal.formData.map(input => input.classList.toggle("hidden"));
+  radio.question.classList.toggle("hidden");
+  modal.confirmationMessage.classList.toggle("block");
+}
 
 //Display or Hide Modal
-const toggleModal = () => modalWindow.classList.toggle("block");
+const toggleModal = () => {
+  modal.window.classList.toggle("block");
+  modal.formData.map(input => input.removeAttribute("data-error-visible"));
+
+  if (modal.confirmationMessage.classList.contains("block")) {
+    changeModalLayout();
+    modal.form.reset();
+    modal.submitBtn.value = "C'est parti";
+    modal.submitBtn.removeEventListener("click", toggleModal);
+  }
+}
 
 // Modal input validator 
 const inputValidator = (condition, elementToCheck) => condition 
@@ -66,19 +84,16 @@ const validate = (event) => {
     user.firstName.value.match(regex.name),
     user.firstName
   );
-
   // lastName check
   inputValidator( 
     user.lastName.value.match(regex.name),
     user.lastName
   );
-  
   // email check
   inputValidator( 
     user.email.value.match(regex.email),
     user.email
   );
-
   // birthdate check 
   // 1- Regex Check // 2- Check if year of birth is > 1900 // 3- Check if (year of birth < actual year)
   inputValidator( 
@@ -87,40 +102,29 @@ const validate = (event) => {
     && parseInt(user.birthDate.value.slice(-4)) < new Date().getFullYear(),
     user.birthDate
   );
-
-  
   // competitions number check
   inputValidator( 
     user.competitionNumber.value.match(regex.competitionNumber),
     user.competitionNumber
   );
-
   // Radio buttons check
   inputValidator( 
-    radioBtns.some(btn => btn.checked === true) ,
-    radioBtns[0]
+    radio.btns.some(btn => btn.checked === true) ,
+    radio.btns[0]
   );
-
   // terms and conditions check
   inputValidator( 
-    terms.checked,
-    terms
+    modal.termsConditions.checked,
+    modal.termsConditions
   );
 
   // Final check for errors in form 
-
-  if (formData.every(data => data.getAttribute("data-error-visible") === "false")) {
-    // Hide content
-    formData.map(data => data.classList.add("hidden"));
-    document.querySelector(".text-label").classList.add("hidden");
-
-    //Show confirmation message
-    confirmationMessage.classList.add("block");
-    confirmationMessage.innerText = "Merci pour \n votre inscription";
-
+  if (modal.formData.every(input => input.getAttribute("data-error-visible") === "false")) {
+    // Hide content and add confirmation message
+    changeModalLayout();
     //Change submit button
-    submitBtn.value = "Fermer";
-    submitBtn.addEventListener("click", toggleModal);
+    modal.submitBtn.value = "Fermer";
+    modal.submitBtn.addEventListener("click", toggleModal);
   }
 
   // Stop auto reload on submit 
@@ -132,13 +136,13 @@ const validate = (event) => {
 /////////////////////////////////
 
 // launch modal event
-modalBtn.forEach(btn => btn.addEventListener("click", toggleModal));
+modal.open.map(btn => btn.addEventListener("click", toggleModal));
 
 // Close event modal 
-modalClose.addEventListener("click", toggleModal);
+modal.close.addEventListener("click", toggleModal);
 
-// Topnav menu display event
-navBtn.addEventListener("click", toggleNav);
+// Top navigation menu display event
+nav.btn.addEventListener("click", toggleNav);
 
 // Form validation submit event 
-modalForm.addEventListener("submit", validate);
+modal.form.addEventListener("submit", validate);
