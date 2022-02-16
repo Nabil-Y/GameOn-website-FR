@@ -572,6 +572,7 @@ footer {
 
 .hidden {
   opacity: 0;
+  visibility: hidden;
 }
 
 .confirmation {

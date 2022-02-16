@@ -37,8 +37,8 @@ const user = {
 
 // Regex Validators
 const regex = {
-  name: /^[a-zà-ú']{2}([a-zà-ú-' ]+)?/i,
-  email: /^[\w.-]+@[\w.-]+\.[a-z]{2,}$/,
+  name: /^[a-zà-ú']{2}([a-zà-ú-' ]+)?$/i,
+  email: /^[\wà-ú.-]+@[\wà-ú.-]+\.[a-z]{2,}$/,
   birthDate: /((?!00)^[0-2][0-9]|^3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/, 
   competitionNumber: /^[0-9]{1,2}$/
 }
