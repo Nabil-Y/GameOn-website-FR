@@ -2,7 +2,9 @@
 // DOM Elements
 /////////////////////////////////
 
-// Modal elements
+/**
+ * Modal elements
+ */
 const modal = {
   open: Array.from(document.querySelectorAll(".modal-btn")),
   window: document.querySelector(".bground"),
@@ -14,19 +16,25 @@ const modal = {
   confirmationMessage: document.querySelector(".confirmation")
 }
 
-// Nav elements
+/**
+ * Nav elements
+ */
 const nav = {
   top: document.querySelector("#myTopnav"),
   btn: document.querySelector("#navBtn")
 }
 
-// Radio elements
+/**
+ * Radio elements
+ */
 const radio = {
   question: document.querySelector(".text-label"),
   btns: Array.from(document.querySelectorAll(".checkbox-input[type=radio]"))
 }
 
-// user data in form
+/**
+ * User input elements
+ */
 const user = {
   firstName: document.getElementById("first"),
   lastName: document.getElementById("last"),
@@ -35,7 +43,9 @@ const user = {
   competitionNumber: document.getElementById("quantity")
 }
 
-// Regex Validators
+/**
+ * Regex validators
+ */
 const regex = {
   name: /^[a-zà-ú']{2}([a-zà-ú-' ]+)?$/i,
   email: /^[\wà-ú.-]+@[\wà-ú.-]+\.[a-z]{2,}$/,
@@ -48,21 +58,34 @@ const regex = {
 /////////////////////////////////
 
 
-// Display nav on mobile
+/**
+ * Display/hide navigation menu on mobile
+ * @returns toggle class "responsive" for nav.top element
+ */
 const toggleNav = () => nav.top.classList.toggle("responsive");
 
-// Change modal Layout on validation
+/**
+ * Change modal Layout on validation
+ * Toggle visibility of all inputs and the question before radio buttons
+ * Toggle visibility of confirmation message
+ */
 const changeModalLayout = () => {
   modal.formData.map(input => input.classList.toggle("hidden"));
   radio.question.classList.toggle("hidden");
   modal.confirmationMessage.classList.toggle("block");
 }
 
-//Display or Hide Modal
+/**
+ * Toggle vibility of modal window
+ */
 const toggleModal = () => {
   modal.window.classList.toggle("block");
   modal.formData.map(input => input.removeAttribute("data-error-visible"));
 
+  /**
+   * Checks if form has been completed before
+   * If completed => reset all content in modal
+   */
   if (modal.confirmationMessage.classList.contains("block")) {
     changeModalLayout();
     modal.form.reset();
@@ -71,63 +94,95 @@ const toggleModal = () => {
   }
 }
 
-// Modal input validator 
+/**
+ * Modal input validator 
+ * @param condition 
+ * @param elementToCheck 
+ * @returns Display or Hide error message for elementToCheck closest input based on condition state (true or false)  
+ */
 const inputValidator = (condition, elementToCheck) => condition 
   ? elementToCheck.closest(".formData").setAttribute("data-error-visible", "false") 
   : elementToCheck.closest(".formData").setAttribute("data-error-visible", "true")
 ;
 
-// form validation
+/**
+ * Form validation
+ * @param event 
+ */
 const validate = (event) => {
-  // firstName check
+  /**
+   * FirstName check
+   */
   inputValidator( 
     user.firstName.value.match(regex.name),
     user.firstName
   );
-  // lastName check
+  /**
+   * LastName check
+   */
   inputValidator( 
     user.lastName.value.match(regex.name),
     user.lastName
   );
-  // email check
+  /**
+   * Email check
+   */
   inputValidator( 
     user.email.value.match(regex.email),
     user.email
   );
-  // birthdate check 
-  // 1- Regex Check // 2- Check if year of birth is > 1900 // 3- Check if (year of birth < actual year)
+  /**
+   * Birthdate check 
+   * 1- Regex check
+   * 2- Check if year of birth is > 1900
+   * 3- Check if (year of birth < actual year)
+   */
   inputValidator( 
     user.birthDate.value.match(regex.birthDate) 
     && parseInt(user.birthDate.value.slice(-4)) > 1900 
     && parseInt(user.birthDate.value.slice(-4)) < new Date().getFullYear(),
     user.birthDate
   );
-  // competitions number check
+  /**
+   * Competitions number check
+   */
   inputValidator( 
     user.competitionNumber.value.match(regex.competitionNumber),
     user.competitionNumber
   );
-  // Radio buttons check
+  /**
+   * Radio buttons check
+   */
   inputValidator( 
     radio.btns.some(btn => btn.checked === true) ,
     radio.btns[0]
   );
-  // terms and conditions check
+  /**
+   * Terms and conditions check
+   */
   inputValidator( 
     modal.termsConditions.checked,
     modal.termsConditions
   );
 
-  // Final check for errors in form 
+  /**
+   * If no error, complete form validation
+   */
   if (modal.formData.every(input => input.getAttribute("data-error-visible") === "false")) {
-    // Hide content and add confirmation message
+    /**
+     * Hide content and display confirmation message
+     */
     changeModalLayout();
-    //Change submit button
+    /**
+     * Change submit button
+     */
     modal.submitBtn.value = "Fermer";
     modal.submitBtn.addEventListener("click", toggleModal);
   }
 
-  // Stop auto reload on submit 
+  /**
+   * Stop auto reload on submit 
+   */
   event.preventDefault();
 }
 
@@ -135,14 +190,22 @@ const validate = (event) => {
 // Events
 /////////////////////////////////
 
-// launch modal event
+/**
+ * Launch modal event
+ */
 modal.open.map(btn => btn.addEventListener("click", toggleModal));
 
-// Close event modal 
+/**
+ * Close modal event 
+ */
 modal.close.addEventListener("click", toggleModal);
 
-// Top navigation menu display event
+/**
+ * Top navigation menu display event
+ */
 nav.btn.addEventListener("click", toggleNav);
 
-// Form validation submit event 
+/**
+ * Form validation submit event 
+ */
 modal.form.addEventListener("submit", validate);
