@@ -110,7 +110,7 @@ const inputValidator = (condition, elementToCheck) => condition
  * @param event 
  */
 const validate = (event) => {
-  /**git
+  /**
    * FirstName check
    */
   inputValidator( 
