@@ -96,7 +96,7 @@ const toggleModal = () => {
 
 /**
  * Modal input validator 
- * @param {boolean} condition 
+ * @param {Array|null} condition
  * @param {HTMLElement} elementToCheck 
  * @returns Display or Hide error message for elementToCheck closest input based on condition state (true or false)  
  */
@@ -110,7 +110,7 @@ const inputValidator = (condition, elementToCheck) => condition
  * @param event 
  */
 const validate = (event) => {
-  /**
+  /**git
    * FirstName check
    */
   inputValidator( 
